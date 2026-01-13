@@ -6,6 +6,8 @@ import About from "./components/pages/About";
 import Services from "./components/pages/Services";
 import ArticlesPage from "./components/pages/ArticlePage";
 import ArticleDetail from "./components/pages/ArticleDetail";
+import Login from "./components/pages/Login";
+import Signup from "./components/pages/Signup";
 
 // inside <Routes>
 
@@ -23,6 +25,8 @@ const App = () => {
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/articles/:id" element={<ArticleDetail />} />
         <Route path="/about" element={<About />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
       </Routes>
     </>
   );
