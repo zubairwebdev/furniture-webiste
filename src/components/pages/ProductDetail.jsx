@@ -16,7 +16,7 @@ import Footer from "../../components/layout/Footer";
 const PRODUCTS = [
   {
     id: "1",
-    title: "White Aesthetic Chair",
+    title: "Wooden Cupboard 3 Row",
     price: 99.98,
     image: p1,
     category: "Chair",
@@ -24,7 +24,7 @@ const PRODUCTS = [
   },
   {
     id: "2",
-    title: "Wooden Cupboard 3 Row",
+    title: "Minimalist Lounge Chair",
     price: 79.88,
     image: p2,
     category: "Cupboard",
@@ -32,7 +32,7 @@ const PRODUCTS = [
   },
   {
     id: "3",
-    title: "Minimalist Lounge Chair",
+    title: "Wooden Dining Table",
     price: 14.74,
     image: p3,
     category: "Chair",
@@ -40,7 +40,7 @@ const PRODUCTS = [
   },
   {
     id: "4",
-    title: "Working Desk Setup",
+    title: "White Aesthetic Chair",
     price: 47.9,
     image: p4,
     category: "Table",
@@ -56,7 +56,7 @@ const PRODUCTS = [
   },
   {
     id: "6",
-    title: "Wooden Dining Table",
+    title: "Working Desk Setup",
     price: 16.5,
     image: p6,
     category: "Table",

@@ -1,5 +1,5 @@
 // src/components/layout/Header.jsx
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, NavLink } from "react-router-dom";
 
 const navLinkClass = ({ isActive }) =>
@@ -14,12 +14,17 @@ const navLinkClass = ({ isActive }) =>
   `;
 
 const Header = () => {
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(false); // mobile menu
+  const [userOpen, setUserOpen] = useState(false); // user dropdown
+  const userRef = useRef(null);
 
-  // close on escape & disable body scroll when menu open
+  // close on escape & disable body scroll when mobile menu open
   useEffect(() => {
     const onKey = (e) => {
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        setOpen(false);
+        setUserOpen(false);
+      }
     };
     document.addEventListener("keydown", onKey);
     document.body.style.overflow = open ? "hidden" : "";
@@ -28,6 +33,17 @@ const Header = () => {
       document.body.style.overflow = "";
     };
   }, [open]);
+
+  // close user dropdown when clicking outside
+  useEffect(() => {
+    const onDocClick = (e) => {
+      if (userRef.current && !userRef.current.contains(e.target)) {
+        setUserOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", onDocClick);
+    return () => document.removeEventListener("mousedown", onDocClick);
+  }, []);
 
   return (
     <header className="border-b bg-white z-40">
@@ -62,19 +78,49 @@ const Header = () => {
 
         {/* Icons + Mobile burger */}
         <div className="flex items-center gap-4">
-          <div className="hidden md:flex gap-4 text-lg">
-            <button
-              className="p-2 rounded-full hover:bg-emerald-50 transition"
+          {/* Desktop icons */}
+          <div className="hidden md:flex gap-4 text-lg items-center">
+            {/* Cart - link to /cart */}
+            <Link
+              to="/cart"
               aria-label="Cart"
+              className="p-2 rounded-full hover:bg-emerald-50 transition"
             >
               🛒
-            </button>
-            <button
-              className="p-2 rounded-full hover:bg-emerald-50 transition"
-              aria-label="Account"
-            >
-              👤
-            </button>
+            </Link>
+
+            {/* User dropdown trigger */}
+            <div className="relative" ref={userRef}>
+              <button
+                onClick={() => setUserOpen((s) => !s)}
+                aria-haspopup="true"
+                aria-expanded={userOpen}
+                aria-label="Account"
+                className="p-2 rounded-full hover:bg-emerald-50 transition flex items-center"
+              >
+                👤
+              </button>
+
+              {/* Dropdown */}
+              {userOpen && (
+                <div className="absolute right-0 mt-2 w-44 bg-white border shadow-sm rounded-md py-2 z-50">
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setUserOpen(false)}
+                  >
+                    Login
+                  </Link>
+                  <Link
+                    to="/signup"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50"
+                    onClick={() => setUserOpen(false)}
+                  >
+                    Signup
+                  </Link>
+                </div>
+              )}
+            </div>
           </div>
 
           {/* Mobile hamburger */}
@@ -212,17 +258,39 @@ const Header = () => {
               </NavLink>
             </nav>
 
-            <div className="border-t mt-6 pt-6">
-              <div className="flex gap-3">
-                <button
-                  className="flex-1 bg-emerald-700 text-white py-2 rounded"
-                  aria-label="Let's talk"
+            <div className="border-t mt-6 pt-6 space-y-3">
+              {/* Login / Signup for mobile */}
+              <Link
+                to="/login"
+                className="block w-full text-center bg-emerald-700 text-white py-2 rounded"
+                onClick={() => setOpen(false)}
+              >
+                Login
+              </Link>
+              <Link
+                to="/signup"
+                className="block w-full text-center border py-2 rounded"
+                onClick={() => setOpen(false)}
+              >
+                Signup
+              </Link>
+
+              <div className="flex gap-3 pt-2">
+                <Link
+                  to="/cart"
+                  className="px-3 py-2 border rounded flex-1 text-center"
+                  onClick={() => setOpen(false)}
                 >
-                  Let's Talk
-                </button>
-                <button className="px-3 py-2 border rounded" aria-label="Cart">
-                  🛒
-                </button>
+                  🛒 Cart
+                </Link>
+
+                <Link
+                  to="/profile"
+                  className="px-3 py-2 border rounded flex-1 text-center"
+                  onClick={() => setOpen(false)}
+                >
+                  👤 Profile
+                </Link>
               </div>
             </div>
           </div>
